@@ -3,10 +3,11 @@ var collectionName = 'searchHistory';
 
 exports.insert = function(query, cb) {
     var collection = db.get().collection(collectionName);
+    var time = Date.now();
 
     collection
         .insert({
-                date: new Date.now(),
+                date: time,
                 search: query
         });
         
