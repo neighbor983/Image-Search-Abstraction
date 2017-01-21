@@ -1,20 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var collectionName = 'searchHistory';
+var searchHistory = require('./model');
 
-var db = require('../db');
 
-router.get('/recent', function(req, res) {
-    var collection = db.get().collection(collectionName);
-    var returnLimit = 10;
-
-    collection
-        .find()
-        .sort({'date': -1})
-        .limit(returnLimit)
-        .toArray(function(err, docs) {
-            res.render('comments', {comments: docs});
-        });
+router.get('/', function(req, res) {
+    
+    searchHistory.recent(function(err, docs){
+        if(err){
+            res.status(500).json(err);
+        }
+        res.render('recent', {search: docs});
+    });
+    
 });
 
 module.exports = router;
