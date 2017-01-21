@@ -1,18 +1,24 @@
 var express = require('express');
 var app = express();
-var router = express.Router();
+var path = require('path');
 var PORT = process.env.PORT || 8080;
 var db = require('./db');
 var MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/searchHistory';
 var searchHistory = require('./searchHistory/model');
 var request = require('request');
 var searches = require('./searches/model');
-//var pug =require('pug');
 
-//app.set('view engine', 'pug');
-
-app.get('/', function(req, res){
-        res.send("here I am");
+app.get('/', function(req, res) {
+  var fileName = path.join(__dirname, 'index.html');
+  res.sendFile(fileName, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:', fileName);
+    }
+  });
 });
 
 app.get('/recent', function(req, res) {
@@ -23,6 +29,44 @@ app.get('/recent', function(req, res) {
         }
         res.json({search: docs});
     });
+    
+});
+
+app.get('/search/:query/pagesize/:size', function(req, res){
+    var query = req.params.query;
+    var size = req.params.size;
+    var time = Date.now();
+    
+    searches.insert({'date': time,
+                    'query': query
+    });
+    
+    var url = "https://api.gettyimages.com/v3/search/images/creative?phrase=" + 
+            encodeURIComponent(query) +
+            "&page_size=" +
+            encodeURIComponent(size);
+            
+    var apiKey = 'j878g39yx378pa77djthzzpn';
+    
+       request({
+                url: url,
+                method: 'GET',
+                headers: { 
+                    "Api-Key": apiKey
+                }
+                
+            }, 
+            function(error, response, data){
+                if(error) {
+                    console.log(error);
+                } else {
+                    var obj = JSON.parse(data);
+                    res.json(obj.images.map(createResults));
+            }   
+    
+        });
+    
+    
     
 });
 
@@ -53,7 +97,6 @@ app.get('/search/:query',function(req, res){
                     console.log(error);
                 } else {
                     var obj = JSON.parse(data);
-                    console.log("result_count" +  obj.result_count );
                     res.json(obj.images.map(createResults));
             }   
     

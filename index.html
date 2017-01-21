@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="header">Image Search Abstraction Layer</h1>
+            <blockquote>User Stories:
+                <ol>
+                    <li>
+                        User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.
+                    </li>
+                    <li>
+                        User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.
+                    </li>
+                    <li>
+                        User Story: I can get a list of the most recently submitted search strings.
+                    </li>
+                </ol>
+            </blockquote>
+           <br>
+            <h2>Instructions:</h2>
+            <h4>Search:</h4>
+            <div>
+                <p>
+                    append '/search/' + what you want to search. 
+                </p>
+                <p>
+                    for example to search for cats:
+                </p>
+                <code>
+                    https://image-search-abstraction-layer-neighbor983.c9users.io/search/cats
+                </code>
+            </div>
+            <h4>Search with results limits:</h4>
+            <div>
+                <p>
+                    append '/search/' + what you want to search + '/pagesize'+ your number of items returned. 
+                </p>
+                <p>
+                    for example to search for cats returning only 5 results:
+                </p>
+                <code>
+                    https://image-search-abstraction-layer-neighbor983.c9users.io/search/cats/pagesize/5
+                </code>
+            </div>
+            <h4>Search History</h4>
+            <div>
+                <p>
+                    append '/recent'  
+                </p>
+                <p>
+                    for example to see history:
+                </p>
+                <code>
+                    https://image-search-abstraction-layer-neighbor983.c9users.io/recent
+                </code>
+            </div>
+                
+
+    
+
+        </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    </body>
+</html>
